@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.modules.front.mapper.EmpMapper">
+
+
+    <sql id="commonColumns">
+        a.id AS "id",
+        a.ename AS "ename",
+        a.salary AS "salary",
+        a.age AS "age"
+    </sql>
+
+
+    <!-- 通过id获取一条数据 -->
+    <select id="getById" resultType="Emp" >
+        SELECT
+        <include refid="commonColumns"/>
+        FROM emp a
+        WHERE a.id = #{id}
+    </select>
+
+    <!-- 条件查询List -->
+    <select id="findList" resultType="Emp" >
+        SELECT
+        <include refid="commonColumns"/>
+        FROM emp a
+        <where>
+            <if test="id != null  and id != '' ">
+                AND a.id = #{id}
+            </if>
+            <if test="ename != null and ename != ''">
+                AND a.ename = #{ename}
+            </if>
+        </where>
+
+    </select>
+
+
+
+
+
+    <!-- 添加新数据 -->
+    <insert id="insert">
+        INSERT INTO emp(
+        `ename`,
+        `salary`,
+        `age`
+        ) VALUES (
+        #{ename},
+        #{salary},
+        #{age}
+        )
+    </insert>
+
+
+    <!-- 更新表中的数据 -->
+    <update id="update">
+
+        UPDATE emp SET
+        `ename` = #{ename},
+        `salary` = #{salary},
+        `age` = #{age}
+        WHERE id = #{id}
+    </update>
+
+
+
+    <!--物理删除-->
+    <update id="delete">
+        DELETE FROM emp
+        WHERE id = #{id}
+    </update>
+
+</mapper>
